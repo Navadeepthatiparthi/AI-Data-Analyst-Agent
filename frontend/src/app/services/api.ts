@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class ApiService {
 
-  private readonly baseUrl = 'http://127.0.0.1:8001';
+  private readonly baseUrl =
+    'https://ai-data-analyst-agent-8rpi.onrender.com';
 
   getBaseUrl(): string {
     return this.baseUrl;

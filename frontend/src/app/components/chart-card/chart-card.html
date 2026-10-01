@@ -1,0 +1,61 @@
+<div class="chart-card" *ngIf="chart">
+
+  <!-- Header -->
+  <div class="chart-header">
+
+    <div class="title-section">
+
+      <div class="chart-mark">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div>
+        <h3>{{ chart.title }}</h3>
+
+        <p>
+          {{ chart.y_axis }} by {{ chart.x_axis }}
+        </p>
+      </div>
+
+    </div>
+
+    <div class="chart-type">
+      {{ chart.type === 'bar' ? 'Comparison' : 'Trend' }}
+    </div>
+
+  </div>
+
+
+  <!-- Divider -->
+  <div class="divider"></div>
+
+
+  <!-- Chart -->
+  <div class="chart-container">
+
+    <canvas
+      baseChart
+      [data]="chartData"
+      [options]="chartOptions"
+      [type]="chartType">
+    </canvas>
+
+  </div>
+
+
+  <!-- Footer -->
+  <div class="chart-footer">
+
+    <span>
+      X · {{ chart.x_axis }}
+    </span>
+
+    <span>
+      Y · {{ chart.y_axis }}
+    </span>
+
+  </div>
+
+</div>

@@ -1,4 +1,3 @@
-from pathlib import Path
 import re
 
 import duckdb
@@ -9,13 +8,15 @@ class DuckDBEngine:
     """
     Analytical query engine built on DuckDB.
 
-    The engine manages temporary analytical tables
-    for uploaded datasets.
+    Stores uploaded datasets as persistent DuckDB tables.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        database_path: str = "data/analytics.duckdb",
+    ):
         self.connection = duckdb.connect(
-            database=":memory:"
+            database=database_path
         )
 
     @staticmethod
@@ -42,13 +43,27 @@ class DuckDBEngine:
 
         return value.lower()
 
+    @staticmethod
+    def quote_identifier(
+        value: str,
+    ) -> str:
+        """
+        Safely quote a SQL identifier.
+        """
+
+        safe_value = DuckDBEngine.sanitize_identifier(
+            value
+        )
+
+        return f'"{safe_value}"'
+
     def register_dataframe(
         self,
         df: pd.DataFrame,
         table_name: str = "dataset",
     ) -> str:
         """
-        Register a Pandas DataFrame as a DuckDB table.
+        Store a Pandas DataFrame as a persistent DuckDB table.
         """
 
         safe_table_name = (
@@ -57,12 +72,61 @@ class DuckDBEngine:
             )
         )
 
+        quoted_table_name = (
+            self.quote_identifier(
+                safe_table_name
+            )
+        )
+
+        temporary_view = "__uploaded_dataframe"
+
         self.connection.register(
-            safe_table_name,
+            temporary_view,
             df,
         )
 
+        try:
+            self.connection.execute(
+                f"""
+                CREATE OR REPLACE TABLE
+                {quoted_table_name}
+                AS
+                SELECT *
+                FROM "{temporary_view}"
+                """
+            )
+
+        finally:
+            self.connection.unregister(
+                temporary_view
+            )
+
         return safe_table_name
+
+    def table_exists(
+        self,
+        table_name: str,
+    ) -> bool:
+        """
+        Check whether a table exists.
+        """
+
+        safe_table_name = (
+            self.sanitize_identifier(
+                table_name
+            )
+        )
+
+        result = self.connection.execute(
+            """
+            SELECT COUNT(*)
+            FROM information_schema.tables
+            WHERE table_name = ?
+            """,
+            [safe_table_name],
+        ).fetchone()
+
+        return bool(result[0])
 
     def get_schema(
         self,
@@ -78,14 +142,19 @@ class DuckDBEngine:
             )
         )
 
+        quoted_table_name = (
+            self.quote_identifier(
+                safe_table_name
+            )
+        )
+
         result = self.connection.execute(
-            f"DESCRIBE {safe_table_name}"
+            f"DESCRIBE {quoted_table_name}"
         ).fetchall()
 
         columns = []
 
         for row in result:
-
             columns.append(
                 {
                     "column_name": row[0],
@@ -110,13 +179,14 @@ class DuckDBEngine:
             .lower()
         )
 
+        if not normalized_query:
+            raise ValueError(
+                "Query cannot be empty."
+            )
+
         if not (
-            normalized_query.startswith(
-                "select"
-            )
-            or normalized_query.startswith(
-                "with"
-            )
+            normalized_query.startswith("select")
+            or normalized_query.startswith("with")
         ):
             raise ValueError(
                 "Only SELECT and WITH queries "
@@ -138,9 +208,7 @@ class DuckDBEngine:
         ]
 
         for keyword in forbidden_keywords:
-
             if keyword in normalized_query:
-
                 raise ValueError(
                     "Query contains a forbidden "
                     f"SQL operation: {keyword.strip()}"
@@ -155,6 +223,8 @@ class DuckDBEngine:
         )
 
     def close(self):
-        """Close the DuckDB connection."""
+        """
+        Close the DuckDB connection.
+        """
 
         self.connection.close()

@@ -1,0 +1,383 @@
+<div class="datasets-page">
+
+  <!-- HEADER -->
+
+  <header class="page-header">
+
+    <div>
+
+      <span class="eyebrow">
+        DATA WORKSPACE
+      </span>
+
+      <h1>
+        My Datasets
+      </h1>
+
+      <p>
+        Upload, inspect and manage the data
+        powering your analytical workspace.
+      </p>
+
+    </div>
+
+    <div class="dataset-count">
+
+      <span>
+        REGISTERED DATASETS
+      </span>
+
+      <strong>
+        {{ datasets.length }}
+      </strong>
+
+    </div>
+
+  </header>
+
+
+  <!-- UPLOAD AREA -->
+
+  <section class="upload-section">
+
+    <div class="section-heading">
+
+      <div>
+
+        <span class="section-number">
+          01
+        </span>
+
+        <h2>
+          Add a dataset
+        </h2>
+
+      </div>
+
+      <p>
+        Supported formats · CSV · XLSX
+      </p>
+
+    </div>
+
+
+    <div
+      class="upload-card"
+      [class.drag-active]="dragActive"
+
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)"
+    >
+
+      <div class="upload-icon">
+        ↑
+      </div>
+
+
+      <div class="upload-content">
+
+        <h3>
+          Drop your dataset here
+        </h3>
+
+        <p>
+          Bring your CSV or Excel file into
+          the analytical workspace.
+        </p>
+
+
+        <label class="choose-file">
+
+          <span>
+            Choose file
+          </span>
+
+          <input
+            type="file"
+            accept=".csv,.xlsx"
+            (change)="onFileSelected($event)"
+          />
+
+        </label>
+
+
+        <span class="upload-hint">
+          CSV or XLSX files only
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- SELECTED FILE -->
+
+    <div
+      class="selected-file"
+      *ngIf="selectedFile"
+    >
+
+      <div class="file-symbol">
+        {{ getFileType(selectedFile.name) }}
+      </div>
+
+      <div class="file-details">
+
+        <strong>
+          {{ selectedFile.name }}
+        </strong>
+
+        <span>
+          Ready for analysis
+        </span>
+
+      </div>
+
+      <button
+        class="remove-file"
+        type="button"
+        (click)="clearSelection()"
+      >
+        ×
+      </button>
+
+      <button
+        class="upload-button"
+        type="button"
+        [disabled]="uploading"
+        (click)="uploadDataset()"
+      >
+
+        <span *ngIf="!uploading">
+          Upload dataset →
+        </span>
+
+        <span *ngIf="uploading">
+          Processing dataset...
+        </span>
+
+      </button>
+
+    </div>
+
+
+    <!-- MESSAGES -->
+
+    <div
+      class="message success"
+      *ngIf="successMessage"
+    >
+      <span>✓</span>
+
+      {{ successMessage }}
+
+    </div>
+
+
+    <div
+      class="message error"
+      *ngIf="errorMessage"
+    >
+      <span>!</span>
+
+      {{ errorMessage }}
+
+    </div>
+
+  </section>
+
+
+  <!-- DATASET LIST -->
+
+  <section class="datasets-section">
+
+    <div class="section-heading">
+
+      <div>
+
+        <span class="section-number">
+          02
+        </span>
+
+        <h2>
+          Your datasets
+        </h2>
+
+      </div>
+
+      <p>
+        Private to your account
+      </p>
+
+    </div>
+
+
+    <!-- LOADING -->
+
+    <div
+      class="loading-state"
+      *ngIf="loading"
+    >
+
+      <div class="loading-line"></div>
+
+      <span>
+        Loading your datasets...
+      </span>
+
+    </div>
+
+
+    <!-- EMPTY -->
+
+    <div
+      class="empty-state"
+      *ngIf="
+        !loading &&
+        datasets.length === 0
+      "
+    >
+
+      <div class="empty-mark">
+        +
+      </div>
+
+      <h3>
+        No datasets yet
+      </h3>
+
+      <p>
+        Upload your first CSV or XLSX file
+        to begin exploring your data.
+      </p>
+
+    </div>
+
+
+    <!-- DATASET TABLE -->
+
+    <div
+      class="dataset-table"
+      *ngIf="
+        !loading &&
+        datasets.length > 0
+      "
+    >
+
+      <div class="table-header">
+
+        <span>
+          DATASET
+        </span>
+
+        <span>
+          ROWS
+        </span>
+
+        <span>
+          COLUMNS
+        </span>
+
+        <span>
+          ADDED
+        </span>
+
+        <span>
+          ACTION
+        </span>
+
+      </div>
+
+
+      <div
+        class="dataset-row"
+        *ngFor="let dataset of datasets"
+      >
+
+        <div class="dataset-name">
+
+          <div class="dataset-file-icon">
+            {{ getFileType(dataset.filename) }}
+          </div>
+
+          <div>
+
+            <strong>
+              {{ dataset.filename }}
+            </strong>
+
+            <span>
+              Analytical dataset
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="dataset-value">
+
+          {{ formatNumber(dataset.rows) }}
+
+        </div>
+
+
+        <div class="dataset-value">
+
+          {{ formatNumber(dataset.columns) }}
+
+        </div>
+
+
+        <div class="dataset-value date">
+
+          {{ formatDate(dataset.uploaded_at) }}
+
+        </div>
+
+
+        <div class="dataset-action">
+
+          <button
+            type="button"
+            (click)="openDataset(dataset)"
+          >
+            Open →
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- INFORMATION -->
+
+  <section class="workspace-note">
+
+    <div class="note-mark">
+      AI
+    </div>
+
+    <div>
+
+      <span>
+        ANALYTICAL WORKSPACE
+      </span>
+
+      <p>
+        Every dataset you upload is registered
+        to your account and becomes available
+        to the dashboard, analytics and AI
+        analysis workflows.
+      </p>
+
+    </div>
+
+  </section>
+
+</div>

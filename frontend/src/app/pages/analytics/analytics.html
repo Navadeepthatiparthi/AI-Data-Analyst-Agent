@@ -1,0 +1,692 @@
+<div class="analytics-page">
+
+  <!-- ================================================= -->
+  <!-- HEADER -->
+  <!-- ================================================= -->
+
+  <header class="analytics-header">
+
+    <div class="header-copy">
+
+      <span class="eyebrow">
+        INTELLIGENT DATA ANALYSIS
+      </span>
+
+      <h1>
+        Analytical
+        <span>Workspace</span>
+      </h1>
+
+      <p>
+        Explore deeper patterns, financial performance,
+        trends and unusual activity within your dataset.
+      </p>
+
+    </div>
+
+    <div class="header-actions">
+
+      <a
+        routerLink="/dashboard"
+        class="back-link"
+      >
+        ← Dashboard
+      </a>
+
+      <div class="dataset-badge">
+
+        <span class="badge-label">
+          ACTIVE DATASET
+        </span>
+
+        <strong>
+          {{ dataset?.filename || 'Loading dataset...' }}
+        </strong>
+
+        <span class="badge-status">
+          <span></span>
+          Live analytical source
+        </span>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- ================================================= -->
+  <!-- LOADING -->
+  <!-- ================================================= -->
+
+  <section
+    class="state-panel"
+    *ngIf="loading"
+  >
+
+    <div class="state-mark">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <h2>
+      Preparing your analysis
+    </h2>
+
+    <p>
+      Reading insights, visualizations and anomaly signals
+      from your selected dataset.
+    </p>
+
+  </section>
+
+
+  <!-- ================================================= -->
+  <!-- ERROR -->
+  <!-- ================================================= -->
+
+  <section
+    class="state-panel error-panel"
+    *ngIf="!loading && errorMessage"
+  >
+
+    <div class="state-icon">
+      !
+    </div>
+
+    <h2>
+      Analysis unavailable
+    </h2>
+
+    <p>
+      {{ errorMessage }}
+    </p>
+
+    <a
+      routerLink="/datasets"
+      class="secondary-action"
+    >
+      Return to datasets
+    </a>
+
+  </section>
+
+
+  <!-- ================================================= -->
+  <!-- ANALYTICAL CONTENT -->
+  <!-- ================================================= -->
+
+  <main
+    class="analytics-content"
+    *ngIf="!loading && !errorMessage"
+  >
+
+
+    <!-- ================================================= -->
+    <!-- OVERVIEW -->
+    <!-- ================================================= -->
+
+    <section class="section-block">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-number">
+            01
+          </span>
+
+          <h2>
+            Performance overview
+          </h2>
+
+        </div>
+
+        <p>
+          Key measures extracted from your dataset
+        </p>
+
+      </div>
+
+
+      <div class="kpi-grid">
+
+
+        <!-- REVENUE -->
+
+        <article class="kpi-card">
+
+          <div class="kpi-top">
+
+            <span class="kpi-label">
+              TOTAL REVENUE
+            </span>
+
+            <span class="kpi-symbol">
+              ₹
+            </span>
+
+          </div>
+
+          <strong class="kpi-value">
+            {{ formatCurrency(totalRevenue) }}
+          </strong>
+
+          <p>
+            Revenue generated across the dataset
+          </p>
+
+        </article>
+
+
+        <!-- PROFIT -->
+
+        <article class="kpi-card">
+
+          <div class="kpi-top">
+
+            <span class="kpi-label">
+              TOTAL PROFIT
+            </span>
+
+            <span class="kpi-symbol">
+              ↗
+            </span>
+
+          </div>
+
+          <strong class="kpi-value">
+            {{ formatCurrency(totalProfit) }}
+          </strong>
+
+          <p>
+            Overall profit recorded
+          </p>
+
+        </article>
+
+
+        <!-- AVERAGE -->
+
+        <article class="kpi-card">
+
+          <div class="kpi-top">
+
+            <span class="kpi-label">
+              AVERAGE REVENUE
+            </span>
+
+            <span class="kpi-symbol">
+              ≈
+            </span>
+
+          </div>
+
+          <strong class="kpi-value">
+            {{ formatCurrency(averageRevenue) }}
+          </strong>
+
+          <p>
+            Average revenue per record
+          </p>
+
+        </article>
+
+
+        <!-- QUANTITY -->
+
+        <article class="kpi-card">
+
+          <div class="kpi-top">
+
+            <span class="kpi-label">
+              TOTAL QUANTITY
+            </span>
+
+            <span class="kpi-symbol">
+              #
+            </span>
+
+          </div>
+
+          <strong class="kpi-value">
+            {{ formatNumber(totalQuantity) }}
+          </strong>
+
+          <p>
+            Total units represented
+          </p>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- PERFORMANCE CHARTS -->
+    <!-- ================================================= -->
+
+    <section class="section-block">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-number">
+            02
+          </span>
+
+          <h2>
+            Performance analysis
+          </h2>
+
+        </div>
+
+        <p>
+          Visual comparison across the dataset
+        </p>
+
+      </div>
+
+
+      <div
+        class="chart-grid"
+        *ngIf="charts.length > 0"
+      >
+
+        <app-chart-card
+          *ngFor="let chart of charts"
+          [chart]="chart"
+        >
+        </app-chart-card>
+
+      </div>
+
+
+      <div
+        class="empty-state"
+        *ngIf="charts.length === 0"
+      >
+
+        <span>
+          NO VISUALIZATIONS
+        </span>
+
+        <p>
+          No analytical charts are available for this dataset.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- INSIGHTS -->
+    <!-- ================================================= -->
+
+    <section class="section-block">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-number">
+            03
+          </span>
+
+          <h2>
+            Dataset insights
+          </h2>
+
+        </div>
+
+        <p>
+          Statistical signals extracted from numeric fields
+        </p>
+
+      </div>
+
+
+      <div
+        class="insight-grid"
+        *ngIf="insights.length > 0"
+      >
+
+        <article
+          class="insight-card"
+          *ngFor="let insight of insights"
+        >
+
+          <div class="insight-header">
+
+            <span class="insight-label">
+              COLUMN
+            </span>
+
+            <span class="insight-column">
+              {{ insight.column }}
+            </span>
+
+          </div>
+
+
+          <div class="insight-values">
+
+            <div>
+
+              <span>
+                TOTAL
+              </span>
+
+              <strong>
+                {{ formatNumber(insight.total) }}
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                AVERAGE
+              </span>
+
+              <strong>
+                {{ formatNumber(insight.average) }}
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                MINIMUM
+              </span>
+
+              <strong>
+                {{ formatNumber(insight.minimum) }}
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                MAXIMUM
+              </span>
+
+              <strong>
+                {{ formatNumber(insight.maximum) }}
+              </strong>
+
+            </div>
+
+          </div>
+
+        </article>
+
+      </div>
+
+
+      <div
+        class="empty-state"
+        *ngIf="insights.length === 0"
+      >
+
+        <span>
+          NO INSIGHTS
+        </span>
+
+        <p>
+          No statistical insights were returned for this dataset.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- ANOMALIES -->
+    <!-- ================================================= -->
+
+    <section class="section-block anomaly-section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-number">
+            04
+          </span>
+
+          <h2>
+            Anomaly signals
+          </h2>
+
+        </div>
+
+        <p>
+          Unusual patterns detected by the analytical engine
+        </p>
+
+      </div>
+
+
+      <div
+        class="anomaly-list"
+        *ngIf="anomalies.length > 0"
+      >
+
+        <article
+          class="anomaly-card"
+          *ngFor="let anomaly of anomalies"
+        >
+
+          <div class="anomaly-marker">
+            !
+          </div>
+
+          <div class="anomaly-content">
+
+            <span class="anomaly-label">
+              ANOMALY DETECTED
+            </span>
+
+            <h3>
+              {{ anomaly.column }}
+            </h3>
+
+            <p>
+              {{ anomaly.description }}
+            </p>
+
+          </div>
+
+        </article>
+
+      </div>
+
+
+      <div
+        class="clear-state"
+        *ngIf="anomalies.length === 0"
+      >
+
+        <div class="clear-icon">
+          ✓
+        </div>
+
+        <div>
+
+          <strong>
+            No unusual signals detected
+          </strong>
+
+          <p>
+            The analytical engine did not identify
+            significant anomalies in this dataset.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- AI ANALYST -->
+    <!-- ================================================= -->
+
+    <section class="section-block ai-analyst-section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-number">
+            05
+          </span>
+
+          <h2>
+            AI Analyst
+          </h2>
+
+        </div>
+
+        <p>
+          Ask questions about your dataset using natural language
+        </p>
+
+      </div>
+
+
+      <div class="ai-analyst-card">
+
+        <div class="ai-analyst-content">
+
+          <span class="ai-analyst-eyebrow">
+            INTELLIGENT DATA ASSISTANT
+          </span>
+
+          <h3>
+            Ask your data.
+            <span>Get answers.</span>
+          </h3>
+
+          <p>
+            Ask questions about revenue, profit, products,
+            quantities, trends and other patterns in your dataset.
+            The AI Analyst converts your question into a safe
+            analytical query and returns the result.
+          </p>
+
+
+          <div class="ai-analyst-features">
+
+            <span>
+              ✦ Natural language queries
+            </span>
+
+            <span>
+              ✦ AI-generated SQL
+            </span>
+
+            <span>
+              ✦ Real-time analysis
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="ai-analyst-action">
+
+          <a
+            class="ai-analyst-button"
+            [routerLink]="['/ai-analyst', datasetId]"
+          >
+            <span>
+              Open AI Analyst
+            </span>
+
+            <span class="arrow">
+              →
+            </span>
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- DATASET INFORMATION -->
+    <!-- ================================================= -->
+
+    <section class="dataset-summary">
+
+      <div>
+
+        <span class="summary-label">
+          ANALYTICAL SOURCE
+        </span>
+
+        <strong>
+          {{ dataset?.filename }}
+        </strong>
+
+      </div>
+
+      <div>
+
+        <span class="summary-label">
+          RECORDS
+        </span>
+
+        <strong>
+          {{ formatNumber(dataset?.rows ?? 0) }}
+        </strong>
+
+      </div>
+
+      <div>
+
+        <span class="summary-label">
+          COLUMNS
+        </span>
+
+        <strong>
+          {{ formatNumber(dataset?.columns ?? 0) }}
+        </strong>
+
+      </div>
+
+      <div>
+
+        <span class="summary-label">
+          ADDED
+        </span>
+
+        <strong>
+          {{ dataset?.uploaded_at | date:'dd MMM yyyy' }}
+        </strong>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+</div>

@@ -1,0 +1,1164 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+
+.datasets-page {
+  min-height: 100vh;
+  box-sizing: border-box;
+
+  padding: 54px 64px 80px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #080d13 0%,
+      #0b1118 52%,
+      #080d13 100%
+    );
+
+  color: #f4eee4;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.page-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-end;
+
+  gap: 40px;
+
+  padding-bottom: 38px;
+
+  border-bottom:
+    1px solid #273341;
+}
+
+
+.eyebrow {
+
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: #b79a65;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 3px;
+
+}
+
+
+.page-header h1 {
+
+  margin: 0;
+
+  color: #f5eee2;
+
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+
+  font-size: 48px;
+
+  line-height: 1.05;
+
+  font-weight: 500;
+
+}
+
+
+.page-header p {
+
+  margin: 16px 0 0;
+
+  max-width: 620px;
+
+  color: #91a0af;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+
+}
+
+
+.dataset-count {
+
+  min-width: 150px;
+
+  padding: 18px 20px;
+
+  border:
+    1px solid #304050;
+
+  background:
+    rgba(17, 28, 39, 0.72);
+
+}
+
+
+.dataset-count span {
+
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #718396;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+}
+
+
+.dataset-count strong {
+
+  color: #d4b57a;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 28px;
+
+  font-weight: 500;
+
+}
+
+
+/* =========================================
+   SECTION HEADINGS
+========================================= */
+
+.upload-section,
+.datasets-section {
+
+  margin-top: 44px;
+
+}
+
+
+.section-heading {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 30px;
+
+  margin-bottom: 18px;
+
+}
+
+
+.section-heading > div {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+}
+
+
+.section-number {
+
+  color: #b99b64;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+}
+
+
+.section-heading h2 {
+
+  margin: 0;
+
+  color: #eee7db;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 25px;
+
+  font-weight: 500;
+
+}
+
+
+.section-heading p {
+
+  margin: 0;
+
+  color: #718294;
+
+  font-size: 11px;
+
+  letter-spacing: 0.8px;
+
+}
+
+
+/* =========================================
+   UPLOAD
+========================================= */
+
+.upload-card {
+
+  min-height: 240px;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 30px;
+
+  padding: 42px;
+
+  border:
+    1px dashed #455361;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(19, 31, 43, 0.9),
+      rgba(12, 20, 28, 0.95)
+    );
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+
+}
+
+
+.upload-card:hover,
+.upload-card.drag-active {
+
+  border-color: #b69a68;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(27, 39, 51, 0.95),
+      rgba(13, 22, 30, 0.98)
+    );
+
+}
+
+
+.upload-icon {
+
+  width: 66px;
+
+  height: 66px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border:
+    1px solid #8e754b;
+
+  color: #c4a66d;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 30px;
+
+}
+
+
+.upload-content h3 {
+
+  margin: 0;
+
+  color: #f2eadf;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 24px;
+
+  font-weight: 500;
+
+}
+
+
+.upload-content p {
+
+  margin: 8px 0 18px;
+
+  color: #8797a7;
+
+  font-size: 13px;
+
+}
+
+
+.choose-file {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 11px 18px;
+
+  cursor: pointer;
+
+  border:
+    1px solid #9f8455;
+
+  background: #182532;
+
+  color: #e8d5ae;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+
+}
+
+
+.choose-file:hover {
+
+  background: #243444;
+
+  border-color: #c1a46b;
+
+}
+
+
+.choose-file input {
+
+  display: none;
+
+}
+
+
+.upload-hint {
+
+  display: block;
+
+  margin-top: 9px;
+
+  color: #5f7182;
+
+  font-size: 10px;
+
+}
+
+
+/* =========================================
+   SELECTED FILE
+========================================= */
+
+.selected-file {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  margin-top: 12px;
+
+  padding: 16px 18px;
+
+  border:
+    1px solid #344453;
+
+  background: #101b25;
+
+}
+
+
+.file-symbol {
+
+  min-width: 46px;
+
+  height: 34px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border:
+    1px solid #725d3d;
+
+  color: #c3a36b;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+}
+
+
+.file-details {
+
+  flex: 1;
+
+  min-width: 0;
+
+}
+
+
+.file-details strong {
+
+  display: block;
+
+  overflow: hidden;
+
+  color: #e8e1d6;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+}
+
+
+.file-details span {
+
+  display: block;
+
+  margin-top: 4px;
+
+  color: #718395;
+
+  font-size: 10px;
+
+}
+
+
+.remove-file {
+
+  width: 32px;
+
+  height: 32px;
+
+  border: 0;
+
+  background: transparent;
+
+  color: #7e8d9b;
+
+  font-size: 22px;
+
+  cursor: pointer;
+
+}
+
+
+.remove-file:hover {
+
+  color: #d8c0a0;
+
+}
+
+
+.upload-button {
+
+  min-width: 165px;
+
+  padding: 12px 18px;
+
+  border:
+    1px solid #a98b59;
+
+  background: #1c2b39;
+
+  color: #e6d1a5;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+}
+
+
+.upload-button:hover {
+
+  background: #263949;
+
+}
+
+
+.upload-button:disabled {
+
+  opacity: 0.55;
+
+  cursor: wait;
+
+}
+
+
+/* =========================================
+   MESSAGES
+========================================= */
+
+.message {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 14px;
+
+  padding: 12px 15px;
+
+  font-size: 12px;
+
+}
+
+
+.message.success {
+
+  border:
+    1px solid #355044;
+
+  background: #101d19;
+
+  color: #9db7a9;
+
+}
+
+
+.message.error {
+
+  border:
+    1px solid #553c3c;
+
+  background: #201516;
+
+  color: #d0a5a5;
+
+}
+
+
+.message span {
+
+  font-weight: 700;
+
+}
+
+
+/* =========================================
+   DATASET TABLE
+========================================= */
+
+.dataset-table {
+
+  border:
+    1px solid #293846;
+
+  background: #0e1720;
+
+}
+
+
+.table-header,
+.dataset-row {
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(280px, 2.2fr)
+    0.7fr
+    0.7fr
+    1fr
+    0.8fr;
+
+  align-items: center;
+
+}
+
+
+.table-header {
+
+  min-height: 48px;
+
+  padding: 0 20px;
+
+  box-sizing: border-box;
+
+  border-bottom:
+    1px solid #293846;
+
+  background: #111d27;
+
+}
+
+
+.table-header span {
+
+  color: #66798b;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.7px;
+
+}
+
+
+.dataset-row {
+
+  min-height: 78px;
+
+  padding: 0 20px;
+
+  box-sizing: border-box;
+
+  border-bottom:
+    1px solid #202d39;
+
+  transition:
+    background 0.18s ease;
+
+}
+
+
+.dataset-row:last-child {
+
+  border-bottom: 0;
+
+}
+
+
+.dataset-row:hover {
+
+  background: #121f2a;
+
+}
+
+
+.dataset-name {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  min-width: 0;
+
+}
+
+
+.dataset-file-icon {
+
+  width: 40px;
+
+  height: 40px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border:
+    1px solid #6f5a3c;
+
+  color: #b99b64;
+
+  font-size: 8px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+}
+
+
+.dataset-name strong {
+
+  display: block;
+
+  overflow: hidden;
+
+  color: #e8e0d5;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+}
+
+
+.dataset-name span {
+
+  display: block;
+
+  margin-top: 5px;
+
+  color: #65788a;
+
+  font-size: 10px;
+
+}
+
+
+.dataset-value {
+
+  color: #a8b4bf;
+
+  font-size: 12px;
+
+}
+
+
+.dataset-value.date {
+
+  color: #81909d;
+
+}
+
+
+.dataset-action button {
+
+  padding: 8px 13px;
+
+  border:
+    1px solid #475563;
+
+  background: transparent;
+
+  color: #c2a16a;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.8px;
+
+  cursor: pointer;
+
+}
+
+
+.dataset-action button:hover {
+
+  border-color: #b99a61;
+
+  background: #182633;
+
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.loading-state {
+
+  min-height: 130px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 14px;
+
+  border:
+    1px solid #293846;
+
+  background: #0e1720;
+
+  color: #738596;
+
+  font-size: 11px;
+
+}
+
+
+.loading-line {
+
+  width: 120px;
+
+  height: 2px;
+
+  overflow: hidden;
+
+  background: #283744;
+
+  position: relative;
+
+}
+
+
+.loading-line::after {
+
+  content: '';
+
+  position: absolute;
+
+  left: -40px;
+
+  top: 0;
+
+  width: 40px;
+
+  height: 2px;
+
+  background: #b89a62;
+
+  animation:
+    loadingMove 1.1s infinite ease-in-out;
+
+}
+
+
+@keyframes loadingMove {
+
+  from {
+    left: -40px;
+  }
+
+  to {
+    left: 120px;
+  }
+
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.empty-state {
+
+  padding: 65px 30px;
+
+  text-align: center;
+
+  border:
+    1px solid #293846;
+
+  background: #0e1720;
+
+}
+
+
+.empty-mark {
+
+  width: 48px;
+
+  height: 48px;
+
+  margin: 0 auto 16px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border:
+    1px solid #67563b;
+
+  color: #b99a62;
+
+  font-size: 22px;
+
+}
+
+
+.empty-state h3 {
+
+  margin: 0;
+
+  color: #e8e0d4;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 22px;
+
+  font-weight: 500;
+
+}
+
+
+.empty-state p {
+
+  max-width: 450px;
+
+  margin: 9px auto 0;
+
+  color: #708293;
+
+  font-size: 12px;
+
+  line-height: 1.7;
+
+}
+
+
+/* =========================================
+   WORKSPACE NOTE
+========================================= */
+
+.workspace-note {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 18px;
+
+  margin-top: 42px;
+
+  padding: 22px;
+
+  border-top:
+    1px solid #293846;
+
+}
+
+
+.note-mark {
+
+  width: 38px;
+
+  height: 38px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border:
+    1px solid #69583c;
+
+  color: #b99b64;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 11px;
+
+}
+
+
+.workspace-note span {
+
+  color: #75889a;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+}
+
+
+.workspace-note p {
+
+  max-width: 760px;
+
+  margin: 7px 0 0;
+
+  color: #7d8e9e;
+
+  font-size: 12px;
+
+  line-height: 1.7;
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+
+  .datasets-page {
+
+    padding:
+      40px 30px 60px;
+
+  }
+
+
+  .table-header,
+  .dataset-row {
+
+    grid-template-columns:
+      minmax(230px, 2fr)
+      0.7fr
+      0.7fr
+      1fr
+      0.9fr;
+
+  }
+
+}
+
+
+@media (max-width: 760px) {
+
+  .datasets-page {
+
+    padding:
+      30px 20px 50px;
+
+  }
+
+
+  .page-header {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+  }
+
+
+  .page-header h1 {
+
+    font-size: 38px;
+
+  }
+
+
+  .dataset-count {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+  }
+
+
+  .section-heading {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+  }
+
+
+  .upload-card {
+
+    flex-direction: column;
+
+    text-align: center;
+
+  }
+
+
+  .selected-file {
+
+    flex-wrap: wrap;
+
+  }
+
+
+  .upload-button {
+
+    width: 100%;
+
+  }
+
+
+  .dataset-table {
+
+    overflow-x: auto;
+
+  }
+
+
+  .table-header,
+  .dataset-row {
+
+    min-width: 760px;
+
+  }
+
+}

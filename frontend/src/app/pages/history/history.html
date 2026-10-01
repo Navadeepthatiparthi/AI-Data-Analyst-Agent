@@ -1,0 +1,525 @@
+<div class="history-page">
+
+  <!-- ================================================= -->
+  <!-- HEADER -->
+  <!-- ================================================= -->
+
+  <header class="history-header">
+
+    <div class="header-copy">
+
+      <span class="eyebrow">
+        ANALYTICAL MEMORY
+      </span>
+
+      <h1>
+        Query
+        <span>History</span>
+      </h1>
+
+      <p>
+        Review the questions, SQL queries and results
+        generated during your data analysis sessions.
+      </p>
+
+    </div>
+
+
+    <div class="header-actions">
+
+      <a
+        routerLink="/dashboard"
+        class="back-link"
+      >
+        ← Dashboard
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <!-- ================================================= -->
+  <!-- DATASET SELECTOR -->
+  <!-- ================================================= -->
+
+  <main class="history-content">
+
+    <section class="dataset-selector-card">
+
+      <div class="selector-copy">
+
+        <span class="section-label">
+          ACTIVE DATASET
+        </span>
+
+        <h2>
+          {{ selectedDataset?.filename || 'No dataset selected' }}
+        </h2>
+
+        <p>
+          Choose a dataset to view its previous AI analysis queries.
+        </p>
+
+      </div>
+
+
+      <div class="selector-control">
+
+        <label for="datasetSelect">
+          DATASET
+        </label>
+
+        <select
+          id="datasetSelect"
+          [value]="selectedDatasetId || ''"
+          (change)="selectDataset($any($event.target).value)"
+          [disabled]="loadingDatasets || datasets.length === 0"
+        >
+
+          <option
+            *ngFor="let dataset of datasets"
+            [value]="dataset.dataset_id"
+          >
+            {{ dataset.filename }}
+          </option>
+
+        </select>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- LOADING DATASETS -->
+    <!-- ================================================= -->
+
+    <section
+      class="state-panel"
+      *ngIf="loadingDatasets"
+    >
+
+      <div class="loading-mark">
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </div>
+
+      <h2>
+        Loading your datasets
+      </h2>
+
+      <p>
+        Preparing your analytical history.
+      </p>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- ERROR -->
+    <!-- ================================================= -->
+
+    <section
+      class="state-panel error-panel"
+      *ngIf="!loadingDatasets && errorMessage"
+    >
+
+      <div class="state-icon">
+        !
+      </div>
+
+      <h2>
+        History unavailable
+      </h2>
+
+      <p>
+        {{ errorMessage }}
+      </p>
+
+      <a
+        routerLink="/datasets"
+        class="secondary-action"
+      >
+        Go to datasets
+      </a>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- HISTORY CONTENT -->
+    <!-- ================================================= -->
+
+    <section
+      class="history-section"
+      *ngIf="
+        !loadingDatasets &&
+        !errorMessage &&
+        selectedDataset
+      "
+    >
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-number">
+            01
+          </span>
+
+          <h2>
+            Previous queries
+          </h2>
+
+        </div>
+
+        <p>
+          Recent questions asked about your dataset
+        </p>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- HISTORY LOADING -->
+      <!-- ================================================= -->
+
+      <div
+        class="history-loading"
+        *ngIf="loadingHistory"
+      >
+
+        <div class="loading-line"></div>
+        <div class="loading-line short"></div>
+        <div class="loading-line"></div>
+
+        <p>
+          Retrieving query history...
+        </p>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- EMPTY HISTORY -->
+      <!-- ================================================= -->
+
+      <div
+        class="empty-history"
+        *ngIf="
+          !loadingHistory &&
+          history.length === 0
+        "
+      >
+
+        <div class="empty-icon">
+          ◌
+        </div>
+
+        <span>
+          NO QUERY HISTORY
+        </span>
+
+        <h3>
+          Your analytical history is empty
+        </h3>
+
+        <p>
+          Ask the AI Analyst a question about this dataset.
+          Your question, generated SQL and result will appear here.
+        </p>
+
+        <a
+          class="primary-action"
+          [routerLink]="[
+            '/ai-analyst',
+            selectedDatasetId
+          ]"
+        >
+          Ask AI Analyst
+          <span>→</span>
+        </a>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- HISTORY LIST -->
+      <!-- ================================================= -->
+
+      <div
+        class="history-list"
+        *ngIf="
+          !loadingHistory &&
+          history.length > 0
+        "
+      >
+
+        <article
+          class="history-card"
+          *ngFor="
+            let item of history;
+            trackBy: trackByHistoryId
+          "
+        >
+
+          <!-- --------------------------------------------- -->
+          <!-- CARD HEADER -->
+          <!-- --------------------------------------------- -->
+
+          <div class="history-card-header">
+
+            <div class="history-index">
+              {{ item.id }}
+            </div>
+
+            <div class="history-meta">
+
+              <span class="history-time">
+                {{ formatDate(item.created_at) }}
+              </span>
+
+              <span class="history-rows">
+                {{ item.row_count }}
+                {{ item.row_count === 1 ? 'result' : 'results' }}
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- --------------------------------------------- -->
+          <!-- QUESTION -->
+          <!-- --------------------------------------------- -->
+
+          <div class="history-question">
+
+            <span>
+              QUESTION
+            </span>
+
+            <h3>
+              {{ item.question }}
+            </h3>
+
+          </div>
+
+
+          <!-- --------------------------------------------- -->
+          <!-- ACTIONS -->
+          <!-- --------------------------------------------- -->
+
+          <div class="history-actions">
+
+            <button
+              type="button"
+              class="details-button"
+              (click)="toggleHistory(item.id)"
+            >
+
+              <span>
+                {{
+                  isExpanded(item.id)
+                    ? 'Hide Details'
+                    : 'View Details'
+                }}
+              </span>
+
+              <span>
+                {{
+                  isExpanded(item.id)
+                    ? '↑'
+                    : '↓'
+                }}
+              </span>
+
+            </button>
+
+          </div>
+
+
+          <!-- ================================================= -->
+          <!-- EXPANDED DETAILS -->
+          <!-- ================================================= -->
+
+          <div
+            class="history-details"
+            *ngIf="isExpanded(item.id)"
+          >
+
+            <!-- SQL -->
+
+            <div class="detail-block">
+
+              <div class="detail-heading">
+
+                <span>
+                  GENERATED SQL
+                </span>
+
+              </div>
+
+              <pre>{{ item.sql || 'No SQL recorded.' }}</pre>
+
+            </div>
+
+
+            <!-- RESULTS -->
+
+            <div class="detail-block">
+
+              <div class="detail-heading">
+
+                <span>
+                  RESULTS
+                </span>
+
+                <small>
+                  {{ item.row_count }}
+                  {{ item.row_count === 1 ? 'ROW' : 'ROWS' }}
+                </small>
+
+              </div>
+
+
+              <div
+                class="result-table-wrapper"
+                *ngIf="
+                  item.results &&
+                  item.results.length > 0
+                "
+              >
+
+                <table>
+
+                  <thead>
+
+                    <tr>
+
+                      <th
+                        *ngFor="
+                          let column of
+                          (item.results[0] | keyvalue)
+                        "
+                      >
+                        {{ column.key }}
+                      </th>
+
+                    </tr>
+
+                  </thead>
+
+
+                  <tbody>
+
+                    <tr
+                      *ngFor="
+                        let row of item.results
+                      "
+                    >
+
+                      <td
+                        *ngFor="
+                          let column of
+                          (row | keyvalue)
+                        "
+                      >
+                        {{ formatResult(column.value) }}
+                      </td>
+
+                    </tr>
+
+                  </tbody>
+
+                </table>
+
+              </div>
+
+
+              <div
+                class="no-results"
+                *ngIf="
+                  !item.results ||
+                  item.results.length === 0
+                "
+              >
+                No result rows were stored.
+              </div>
+
+            </div>
+
+
+            <!-- TIMESTAMP -->
+
+            <div class="detail-footer">
+
+              <span>
+                EXECUTED
+              </span>
+
+              <strong>
+                {{ formatDate(item.created_at) }}
+              </strong>
+
+            </div>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- QUICK ACTION -->
+    <!-- ================================================= -->
+
+    <section
+      class="history-footer-card"
+      *ngIf="
+        !loadingDatasets &&
+        !errorMessage &&
+        selectedDataset
+      "
+    >
+
+      <div>
+
+        <span class="footer-label">
+          CONTINUE ANALYZING
+        </span>
+
+        <h2>
+          Have another question?
+        </h2>
+
+        <p>
+          Return to AI Analyst and explore your dataset
+          using natural language.
+        </p>
+
+      </div>
+
+      <a
+        class="footer-button"
+        [routerLink]="[
+          '/ai-analyst',
+          selectedDatasetId
+        ]"
+      >
+        Ask AI
+        <span>→</span>
+      </a>
+
+    </section>
+
+  </main>
+
+</div>

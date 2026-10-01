@@ -1,0 +1,923 @@
+<div class="ai-analyst-shell">
+
+  
+   //    SIDEBAR
+ 
+
+  <aside class="sidebar">
+
+    <!-- BRAND -->
+
+    <div class="brand">
+
+      <div class="brand-mark">
+        AI
+      </div>
+
+      <div class="brand-copy">
+
+        <span class="brand-name">
+          AI ANALYST
+        </span>
+
+        <span class="brand-subtitle">
+          INTELLIGENCE WORKSPACE
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="sidebar-divider"></div>
+
+
+    <!-- NAVIGATION -->
+
+    <p class="nav-label">
+      WORKSPACE
+    </p>
+
+    <nav class="navigation">
+
+      <a
+        class="nav-item"
+        routerLink="/dashboard"
+      >
+
+        <span class="nav-icon">
+          ◈
+        </span>
+
+        <span>
+          Dashboard
+        </span>
+
+      </a>
+
+
+      <a
+        class="nav-item"
+        routerLink="/datasets"
+      >
+
+        <span class="nav-icon">
+          ◫
+        </span>
+
+        <span>
+          My Datasets
+        </span>
+
+      </a>
+
+
+      <a
+        class="nav-item"
+        routerLink="/history"
+      >
+
+        <span class="nav-icon">
+          ◌
+        </span>
+
+        <span>
+          Query History
+        </span>
+
+      </a>
+
+
+      <a
+        class="nav-item active"
+        routerLink="/ai-analyst"
+      >
+
+        <span class="nav-icon">
+          ✦
+        </span>
+
+        <span>
+          AI Analyst
+        </span>
+
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-spacer"></div>
+
+
+    <!-- ACTIVE DATASET -->
+
+    <div class="sidebar-dataset">
+
+      <span class="small-label">
+        ACTIVE DATASET
+      </span>
+
+
+      <strong
+        *ngIf="dataset"
+      >
+        {{ dataset.filename }}
+      </strong>
+
+
+      <strong
+        *ngIf="!dataset && loadingDataset"
+      >
+        Loading dataset...
+      </strong>
+
+
+      <span class="dataset-status">
+
+        <span
+          class="status-dot"
+          [class.loading-dot]="loadingDataset"
+        ></span>
+
+        {{
+          loadingDataset
+            ? 'Connecting...'
+            : dataset
+              ? 'Connected'
+              : 'Unavailable'
+        }}
+
+      </span>
+
+    </div>
+
+
+    <!-- BACK TO ANALYTICS -->
+
+    <a
+      class="sidebar-link"
+      *ngIf="datasetId"
+      [routerLink]="['/analytics', datasetId]"
+    >
+      ← Back to Analytics
+    </a>
+
+  </aside>
+
+
+  
+    //   MAIN CONTENT
+ 
+
+  <main class="main-content">
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+      <div class="breadcrumb">
+
+        <span>
+          AI ANALYST
+        </span>
+
+        <span class="separator">
+          /
+        </span>
+
+        <strong>
+          Natural Language Analysis
+        </strong>
+
+      </div>
+
+
+      <div class="secure-status">
+
+        <span class="secure-dot"></span>
+
+        SECURE AI SESSION
+
+      </div>
+
+    </header>
+
+
+    
+        // HERO
+    
+
+    <section class="hero">
+
+      <div class="hero-copy">
+
+        <p class="eyebrow">
+          INTELLIGENT DATA INTERFACE
+        </p>
+
+
+        <h1>
+          Ask your
+          <span>data.</span>
+        </h1>
+
+
+        <p class="hero-description">
+
+          Ask questions in plain English.
+          AI Analyst translates your question into
+          a safe analytical query and returns the
+          answer directly from your dataset.
+
+        </p>
+
+      </div>
+
+
+      <!-- DATASET CARD -->
+
+      <div class="dataset-card">
+
+        <span class="card-label">
+          ANALYSIS SOURCE
+        </span>
+
+
+        <div class="dataset-main">
+
+          <div class="dataset-icon">
+            ◫
+          </div>
+
+
+          <div class="dataset-info">
+
+            <strong
+              *ngIf="dataset"
+            >
+              {{ dataset.filename }}
+            </strong>
+
+
+            <strong
+              *ngIf="!dataset && loadingDataset"
+            >
+              Loading dataset...
+            </strong>
+
+
+            <span
+              *ngIf="dataset"
+            >
+
+              {{
+                dataset.rows
+                  ? (dataset.rows | number)
+                  : '—'
+              }}
+
+              rows ·
+
+              {{
+                dataset.columns
+                  ? (dataset.columns | number)
+                  : '—'
+              }}
+
+              columns
+
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    
+        // ERROR MESSAGE
+    
+
+    <div
+      class="error-message"
+      *ngIf="errorMessage"
+    >
+
+      <span class="error-icon">
+        !
+      </span>
+
+      <span>
+        {{ errorMessage }}
+      </span>
+
+    </div>
+
+
+    
+        // ASK PANEL
+    
+
+    <section class="ask-section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-number">
+            01
+          </span>
+
+          <span class="section-label">
+            NATURAL LANGUAGE QUERY
+          </span>
+
+        </div>
+
+
+        <span class="section-note">
+          Ask anything about your dataset
+        </span>
+
+      </div>
+
+
+      <div class="ask-panel">
+
+        <div class="ask-panel-top">
+
+          <div class="ai-symbol">
+            ✦
+          </div>
+
+
+          <div>
+
+            <h2>
+              What would you like to know?
+            </h2>
+
+            <p>
+              Describe your question naturally.
+              The AI will handle the analytical query.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- QUESTION INPUT -->
+
+        <div class="question-wrapper">
+
+          <textarea
+            [(ngModel)]="question"
+            (keydown)="handleKeydown($event)"
+            [disabled]="asking || loadingDataset"
+            placeholder="Ask something like: Which product generated the highest revenue?"
+            rows="4"
+          ></textarea>
+
+
+          <div class="input-footer">
+
+            <span class="input-hint">
+              Press Enter to analyze · Shift + Enter for a new line
+            </span>
+
+
+            <button
+              type="button"
+              class="ask-button"
+              (click)="askQuestion()"
+              [disabled]="
+                asking ||
+                loadingDataset ||
+                !datasetId ||
+                !question.trim()
+              "
+            >
+
+              <span
+                *ngIf="!asking"
+              >
+                Ask AI
+              </span>
+
+
+              <span
+                *ngIf="asking"
+              >
+                Analyzing...
+              </span>
+
+
+              <span class="button-arrow">
+                →
+              </span>
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    
+        // AI RESULT
+   
+
+    <section
+      class="result-section"
+      *ngIf="response"
+    >
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-number">
+            02
+          </span>
+
+          <span class="section-label">
+            ANALYSIS RESULT
+          </span>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="clear-button"
+          (click)="clearResult()"
+        >
+          Clear result
+        </button>
+
+      </div>
+
+
+      <!-- QUESTION -->
+
+      <div class="question-summary">
+
+        <span class="summary-label">
+          YOUR QUESTION
+        </span>
+
+        <strong>
+          {{ response.question }}
+        </strong>
+
+      </div>
+
+
+      <!-- RESULT -->
+
+      <div class="result-card">
+
+        <div class="result-header">
+
+          <div>
+
+            <span class="result-label">
+              AI RESULT
+            </span>
+
+            <h2
+              style="
+                margin: 6px 0 0;
+                font-size: 16px;
+                font-weight: 500;
+                letter-spacing: 0.02em;
+                opacity: 0.78;
+              "
+            >
+              Analysis complete.
+            </h2>
+
+          </div>
+
+
+          <div class="row-count">
+
+            {{ response.row_count }}
+
+            <span>
+              {{ response.row_count === 1 ? 'result' : 'results' }}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- RESULT TABLE -->
+
+        <div
+          class="result-table-wrapper"
+          *ngIf="
+            response.results &&
+            response.results.length > 0
+          "
+        >
+
+          <table class="result-table">
+
+            <thead>
+
+              <tr>
+
+                <th
+                  *ngFor="
+                    let column of getResultColumns()
+                  "
+                  style="
+                    font-weight: 700;
+                    letter-spacing: 0.08em;
+                  "
+                >
+                  {{ column }}
+                </th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              <tr
+                *ngFor="
+                  let row of response.results
+                "
+              >
+
+                <td
+                  *ngFor="
+                    let column of getResultColumns()
+                  "
+                >
+                  <strong
+                    style="
+                      display: inline-block;
+                      font-size: 20px;
+                      font-weight: 800;
+                      line-height: 1.4;
+                      letter-spacing: 0.01em;
+                    "
+                  >
+                    {{ formatValue(
+                      getResultValue(row, column)
+                    ) }}
+                  </strong>
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+        <!-- NO RESULTS -->
+
+        <div
+          class="no-results"
+          *ngIf="
+            !response.results ||
+            response.results.length === 0
+          "
+        >
+
+          <span>
+            No rows were returned for this question.
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- GENERATED SQL -->
+
+      <div class="sql-card">
+
+        <div class="sql-header">
+
+          <div>
+
+            <span class="result-label">
+              GENERATED SQL
+            </span>
+
+            <span class="sql-description">
+              Validated analytical query
+            </span>
+
+          </div>
+
+
+          <span class="sql-badge">
+            SAFE QUERY
+          </span>
+
+        </div>
+
+
+        <pre><code>{{ response.sql }}</code></pre>
+
+      </div>
+
+    </section>
+
+
+
+
+
+    
+     //    EXAMPLE QUESTIONS
+    
+    <section class="examples-section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-number">
+            03
+          </span>
+
+          <span class="section-label">
+            EXAMPLE QUESTIONS
+          </span>
+
+        </div>
+
+
+        <span class="section-note">
+          Start with one of these
+        </span>
+
+      </div>
+
+
+      <div class="examples-grid">
+
+
+        <button
+          type="button"
+          class="example-card"
+          (click)="useExample(
+            'Which product generated the highest revenue?'
+          )"
+        >
+
+          <span class="example-icon">
+            ↗
+          </span>
+
+          <span class="example-title">
+            Highest revenue
+          </span>
+
+          <span class="example-question">
+            Which product generated the highest revenue?
+          </span>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="example-card"
+          (click)="useExample(
+            'What is the average revenue?'
+          )"
+        >
+
+          <span class="example-icon">
+            ∅
+          </span>
+
+          <span class="example-title">
+            Average revenue
+          </span>
+
+          <span class="example-question">
+            What is the average revenue?
+          </span>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="example-card"
+          (click)="useExample(
+            'Which product generated the highest profit?'
+          )"
+        >
+
+          <span class="example-icon">
+            ◆
+          </span>
+
+          <span class="example-title">
+            Highest profit
+          </span>
+
+          <span class="example-question">
+            Which product generated the highest profit?
+          </span>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="example-card"
+          (click)="useExample(
+            'Show me the total quantity sold.'
+          )"
+        >
+
+          <span class="example-icon">
+            #
+          </span>
+
+          <span class="example-title">
+            Total quantity
+          </span>
+
+          <span class="example-question">
+            Show me the total quantity sold.
+          </span>
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+    
+        // HOW IT WORKS
+    
+
+    <section class="workflow-section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-number">
+            04
+          </span>
+
+          <span class="section-label">
+            HOW AI ANALYST WORKS
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="workflow-grid">
+
+
+        <div class="workflow-item">
+
+          <span class="workflow-number">
+            01
+          </span>
+
+          <strong>
+            Ask
+          </strong>
+
+          <p>
+            Ask your question in natural language.
+          </p>
+
+        </div>
+
+
+        <div class="workflow-line"></div>
+
+
+        <div class="workflow-item">
+
+          <span class="workflow-number">
+            02
+          </span>
+
+          <strong>
+            Understand
+          </strong>
+
+          <p>
+            AI converts your question into analytical SQL.
+          </p>
+
+        </div>
+
+
+        <div class="workflow-line"></div>
+
+
+        <div class="workflow-item">
+
+          <span class="workflow-number">
+            03
+          </span>
+
+          <strong>
+            Validate
+          </strong>
+
+          <p>
+            The generated query is checked for safety.
+          </p>
+
+        </div>
+
+
+        <div class="workflow-line"></div>
+
+
+        <div class="workflow-item">
+
+          <span class="workflow-number">
+            04
+          </span>
+
+          <strong>
+            Analyze
+          </strong>
+
+          <p>
+            DuckDB executes the approved analytical query.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    
+        // FOOTER
+    
+    <footer class="page-footer">
+
+      <span>
+        AI ANALYST
+      </span>
+
+      <span>
+        Natural language → SQL → Insight
+      </span>
+
+      <a
+        routerLink="/dashboard"
+        class="dashboard-return"
+        style="
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 14px 24px;
+          border: 1px solid rgba(201, 164, 93, 0.70);
+          border-radius: 8px;
+          background: rgba(201, 164, 93, 0.14);
+          color: #e3c477;
+          font-size: 14px;
+          font-weight: 800;
+          letter-spacing: 0.09em;
+          text-decoration: none;
+          white-space: nowrap;
+          text-transform: uppercase;
+        "
+      >
+        ← RETURN TO DASHBOARD
+      </a>
+    </footer>
+
+
+  </main>
+
+</div>

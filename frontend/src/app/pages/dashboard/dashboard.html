@@ -1,0 +1,649 @@
+<div class="dashboard-shell">
+
+  <!-- =====================================================
+       SIDEBAR
+  ====================================================== -->
+
+  <aside class="sidebar">
+
+    <!-- Brand -->
+    <div class="brand">
+
+      <div class="brand-mark">
+        AI
+      </div>
+
+      <div>
+        <span class="brand-name">
+          AI ANALYST
+        </span>
+
+        <span class="brand-subtitle">
+          INTELLIGENCE WORKSPACE
+        </span>
+      </div>
+
+    </div>
+
+
+    <div class="sidebar-divider"></div>
+
+
+    <!-- Navigation -->
+    <nav class="navigation">
+
+      <span class="nav-label">
+        WORKSPACE
+      </span>
+
+
+      <a
+        class="nav-item active"
+        routerLink="/dashboard">
+
+        <span class="nav-icon">
+          ⌂
+        </span>
+
+        <span>
+          Dashboard
+        </span>
+
+      </a>
+
+
+      <a
+        class="nav-item"
+        routerLink="/datasets">
+
+        <span class="nav-icon">
+          ▣
+        </span>
+
+        <span>
+          My Datasets
+        </span>
+
+      </a>
+
+
+      <a
+        class="nav-item"
+        routerLink="/history">
+
+        <span class="nav-icon">
+          ◷
+        </span>
+
+        <span>
+          Query History
+        </span>
+
+      </a>
+
+
+      <a
+        class="nav-item"
+        routerLink="/ai-analyst">
+
+        <span class="nav-icon">
+          ✦
+        </span>
+
+        <span>
+          AI Analyst
+        </span>
+
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-spacer"></div>
+
+
+    <!-- Workspace information -->
+    <div class="sidebar-info">
+
+      <span class="small-label">
+        WORKSPACE
+      </span>
+
+      <strong>
+        Ready for analysis
+      </strong>
+
+      <p>
+        Upload a dataset to begin.
+      </p>
+
+    </div>
+
+
+    <!-- Profile -->
+    <div class="profile-wrapper">
+
+      <button
+        type="button"
+        class="profile-toggle"
+        (click)="toggleProfile()">
+
+        <div class="user-avatar">
+          {{
+            currentUser?.full_name?.charAt(0)?.toUpperCase() || 'U'
+          }}
+        </div>
+
+
+        <div class="user-info">
+
+          <strong>
+            {{ currentUser?.full_name || 'User' }}
+          </strong>
+
+          <span>
+            {{ currentUser?.email || 'Account' }}
+          </span>
+
+        </div>
+
+
+        <span class="profile-chevron">
+          {{ profileOpen ? '⌃' : '⌄' }}
+        </span>
+
+      </button>
+
+
+      <!-- Profile popup -->
+      <div
+        class="profile-panel"
+        *ngIf="profileOpen">
+
+        <span class="small-label">
+          ACCOUNT
+        </span>
+
+
+        <div class="profile-main">
+
+          <div class="profile-large-avatar">
+            {{
+              currentUser?.full_name?.charAt(0)?.toUpperCase() || 'U'
+            }}
+          </div>
+
+
+          <div>
+
+            <strong>
+              {{ currentUser?.full_name || 'User' }}
+            </strong>
+
+            <span>
+              {{ currentUser?.email || 'Account' }}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="profile-divider"></div>
+
+
+        <button
+          type="button"
+          class="profile-logout"
+          (click)="logout()">
+
+          <span>
+            ↪
+          </span>
+
+          Sign out
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =====================================================
+       MAIN CONTENT
+  ====================================================== -->
+
+  <main class="main-content">
+
+
+    <!-- Top bar -->
+    <header class="topbar">
+
+      <div>
+
+        <span class="topbar-kicker">
+          ANALYTICS COMMAND CENTER
+        </span>
+
+        <span class="topbar-separator">
+          /
+        </span>
+
+        <span class="topbar-page">
+          Dashboard
+        </span>
+
+      </div>
+
+
+      <div class="secure-status">
+
+        <span class="status-dot"></span>
+
+        SECURE WORKSPACE
+
+      </div>
+
+    </header>
+
+
+    <!-- =================================================
+         HERO / WELCOME
+    ================================================== -->
+
+    <section class="dashboard-hero">
+
+      <span class="eyebrow">
+        INTELLIGENT DATA ANALYSIS
+      </span>
+
+
+      <h1>
+
+        Welcome,
+        <em>
+          {{ currentUser?.full_name || 'Analyst' }}.
+        </em>
+
+      </h1>
+
+
+      <p class="hero-description">
+
+        Your analytical workspace is ready.
+        Bring your data in, explore what matters,
+        and let AI turn raw information into meaningful answers.
+
+      </p>
+
+    </section>
+
+
+    <!-- =================================================
+         START ANALYSIS CARD
+    ================================================== -->
+
+    <section class="start-section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-number">
+            01
+          </span>
+
+          <h2>
+            Start your analysis
+          </h2>
+
+        </div>
+
+        <span>
+          Your first step
+        </span>
+
+      </div>
+
+
+      <div class="upload-start-card">
+
+
+        <!-- Icon -->
+        <div class="upload-icon">
+
+          <span>
+            ↑
+          </span>
+
+        </div>
+
+
+        <!-- Content -->
+        <div class="upload-content">
+
+          <span class="small-label">
+            DATASET WORKSPACE
+          </span>
+
+
+          <h2>
+            Bring your data to life.
+          </h2>
+
+
+          <p>
+
+            Upload a CSV or Excel dataset and
+            AI Analyst will prepare it for
+            exploration, visualization and
+            intelligent questioning.
+
+          </p>
+
+
+          <div class="upload-actions">
+
+            <a
+              class="primary-action"
+              routerLink="/datasets">
+
+              <span>
+                + Upload Dataset
+              </span>
+
+              <span>
+                →
+              </span>
+
+            </a>
+
+
+            <a
+              class="secondary-action"
+              routerLink="/datasets">
+
+              View my datasets
+
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <!-- Supported formats -->
+        <div class="upload-meta">
+
+          <span>
+            SUPPORTED
+          </span>
+
+          <strong>
+            CSV · XLSX
+          </strong>
+
+          <p>
+            Secure analytical workflow
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         CAPABILITIES
+    ================================================== -->
+
+    <section class="capabilities-section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-number">
+            02
+          </span>
+
+          <h2>
+            What you can do
+          </h2>
+
+        </div>
+
+        <span>
+          One workspace
+        </span>
+
+      </div>
+
+
+      <div class="capability-grid">
+
+
+        <!-- Explore -->
+        <article class="capability-card">
+
+          <div class="capability-number">
+            01
+          </div>
+
+
+          <div class="capability-icon">
+            ◫
+          </div>
+
+
+          <h3>
+            Explore
+          </h3>
+
+
+          <p>
+            Upload and inspect your datasets
+            before diving into deeper analysis.
+          </p>
+
+
+          <a routerLink="/datasets">
+            Explore datasets →
+          </a>
+
+        </article>
+
+
+        <!-- Analyze -->
+        <article class="capability-card">
+
+          <div class="capability-number">
+            02
+          </div>
+
+
+          <div class="capability-icon">
+            ◈
+          </div>
+
+
+          <h3>
+            Analyze
+          </h3>
+
+
+          <p>
+            Discover performance metrics,
+            trends, visualizations and anomalies.
+          </p>
+
+
+          <a routerLink="/datasets">
+            Open analytics →
+          </a>
+
+        </article>
+
+
+        <!-- Ask AI -->
+        <article class="capability-card">
+
+          <div class="capability-number">
+            03
+          </div>
+
+
+          <div class="capability-icon">
+            ✦
+          </div>
+
+
+          <h3>
+            Ask AI
+          </h3>
+
+
+          <p>
+            Ask questions in natural language
+            and receive answers from your data.
+          </p>
+
+
+          <a routerLink="/ai-analyst">
+            Ask your data →
+          </a>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         WORKFLOW
+    ================================================== -->
+
+    <section class="workflow-section">
+
+      <div class="workflow-copy">
+
+        <span class="eyebrow">
+          SIMPLE WORKFLOW
+        </span>
+
+        <h2>
+          From raw data
+          <em>to insight.</em>
+        </h2>
+
+        <p>
+          AI Analyst keeps the analytical process
+          simple: bring your data, explore the results,
+          then ask questions naturally.
+        </p>
+
+      </div>
+
+
+      <div class="workflow-steps">
+
+
+        <div class="workflow-step">
+
+          <span>
+            01
+          </span>
+
+          <strong>
+            Upload
+          </strong>
+
+          <p>
+            Bring your CSV or Excel dataset.
+          </p>
+
+        </div>
+
+
+        <div class="workflow-line"></div>
+
+
+        <div class="workflow-step">
+
+          <span>
+            02
+          </span>
+
+          <strong>
+            Explore
+          </strong>
+
+          <p>
+            Understand metrics and patterns.
+          </p>
+
+        </div>
+
+
+        <div class="workflow-line"></div>
+
+
+        <div class="workflow-step">
+
+          <span>
+            03
+          </span>
+
+          <strong>
+            Ask
+          </strong>
+
+          <p>
+            Question your data with AI.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         FOOTER
+    ================================================== -->
+
+    <footer class="workspace-footer">
+
+      <div>
+
+        <strong>
+          AI Analyst
+        </strong>
+
+        <span>
+          Intelligent data workspace
+        </span>
+
+      </div>
+
+
+      <div class="footer-status">
+
+        <span></span>
+
+        System ready
+
+      </div>
+
+    </footer>
+
+
+  </main>
+
+</div>

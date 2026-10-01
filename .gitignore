@@ -16,12 +16,19 @@ venv/
 # Uploaded datasets
 backend/data/uploads/*
 backend/data/*.db
+backend/data/*.duckdb
 
 # Logs
 *.log
 
 # IDE
 .vscode/
+
+# Frontend dependencies
+frontend/node_modules/
+
+# Angular build output
+frontend/dist/
 
 # OS files
 .DS_Store

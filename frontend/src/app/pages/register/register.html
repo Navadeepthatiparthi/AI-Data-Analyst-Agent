@@ -1,0 +1,183 @@
+<div class="auth-page">
+
+  <div class="auth-shell">
+
+    <section class="brand-panel">
+
+      <div class="brand-mark">
+        AI
+      </div>
+
+      <p class="eyebrow">
+        AI DATA ANALYST
+      </p>
+
+      <h1>
+        Your data.<br>
+        Your intelligence.
+      </h1>
+
+      <p class="brand-description">
+        Create a secure analytical workspace
+        and turn your datasets into decisions,
+        patterns and insights.
+      </p>
+
+      <div class="brand-line"></div>
+
+      <span class="brand-note">
+        SECURE · PRIVATE · ANALYTICAL
+      </span>
+
+    </section>
+
+
+    <section class="register-panel">
+
+      <div class="register-header">
+
+        <span class="section-label">
+          NEW WORKSPACE
+        </span>
+
+        <h2>
+          Create account
+        </h2>
+
+        <p>
+          Start your private analytical workspace.
+        </p>
+
+      </div>
+
+
+      <form
+        (ngSubmit)="register()"
+        #registerForm="ngForm"
+      >
+
+        <div class="field">
+
+          <label for="fullName">
+            Full name
+          </label>
+
+          <input
+            id="fullName"
+            type="text"
+            name="fullName"
+            [(ngModel)]="fullName"
+            placeholder="Your full name"
+            autocomplete="name"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="email">
+            Email address
+          </label>
+
+          <input
+            id="email"
+            type="email"
+            name="email"
+            [(ngModel)]="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="password">
+            Password
+          </label>
+
+          <input
+            id="password"
+            type="password"
+            name="password"
+            [(ngModel)]="password"
+            placeholder="Minimum 8 characters"
+            autocomplete="new-password"
+            required
+          >
+
+        </div>
+
+
+        <div
+          class="error-message"
+          *ngIf="errorMessage"
+        >
+          {{ errorMessage }}
+        </div>
+
+
+        <div
+          class="success-message"
+          *ngIf="successMessage"
+        >
+          {{ successMessage }}
+        </div>
+
+
+        <button
+          type="submit"
+          class="register-button"
+          [disabled]="loading"
+        >
+
+          <span *ngIf="!loading">
+            Create account
+          </span>
+
+          <span *ngIf="loading">
+            Creating...
+          </span>
+
+          <span
+            class="arrow"
+            *ngIf="!loading"
+          >
+            →
+          </span>
+
+        </button>
+
+      </form>
+
+
+      <div class="login-link">
+
+        <span>
+          Already have an account?
+        </span>
+
+        <a routerLink="/login">
+          Sign in
+        </a>
+
+      </div>
+
+
+      <div class="security-note">
+
+        <span class="security-dot"></span>
+
+        Protected analytical workspace
+
+      </div>
+
+    </section>
+
+  </div>
+
+</div>

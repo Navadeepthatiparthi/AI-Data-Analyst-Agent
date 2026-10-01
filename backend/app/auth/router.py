@@ -1,6 +1,7 @@
 import sqlite3
 import uuid
 from datetime import datetime, timezone
+from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException
 
@@ -25,18 +26,55 @@ router = APIRouter(
 )
 
 
-DATABASE_PATH = "data/users.db"
+# =========================================================
+# DATABASE CONFIGURATION
+# =========================================================
+
+# backend/
+# ├── app/
+# │   └── auth/
+# │       └── router.py
+# └── data/
+#
+# This resolves the database location reliably on both
+# local development and deployment platforms such as Render.
+
+BASE_DIR = Path(__file__).resolve().parents[2]
+
+DATA_DIR = BASE_DIR / "data"
+
+DATA_DIR.mkdir(
+    parents=True,
+    exist_ok=True,
+)
+
+DATABASE_PATH = DATA_DIR / "users.db"
 
 
 def get_connection():
-    connection = sqlite3.connect(DATABASE_PATH)
+
+    connection = sqlite3.connect(
+        str(DATABASE_PATH)
+    )
 
     connection.row_factory = sqlite3.Row
 
     return connection
 
 
+# =========================================================
+# DATABASE INITIALIZATION
+# =========================================================
+
 def initialize_database():
+
+    # Make absolutely sure the directory exists
+    # before SQLite attempts to create/open the file.
+
+    DATA_DIR.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
 
     connection = get_connection()
 
@@ -63,6 +101,10 @@ def initialize_database():
 
 initialize_database()
 
+
+# =========================================================
+# REGISTER
+# =========================================================
 
 @router.post(
     "/register",
@@ -153,6 +195,10 @@ async def register_user(
         connection.close()
 
 
+# =========================================================
+# LOGIN
+# =========================================================
+
 @router.post(
     "/login",
     response_model=TokenResponse,
@@ -215,6 +261,10 @@ async def login_user(
         ),
     )
 
+
+# =========================================================
+# CURRENT USER
+# =========================================================
 
 @router.get(
     "/me",
